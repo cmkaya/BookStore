@@ -1,0 +1,25 @@
+﻿@if(TempData["success"] is not null)
+{
+    <script type="text/javascript">
+        toastr.success('@TempData["success"]')
+    </script>
+}
+@if(TempData["error"] is not null)
+{
+    <script type="text/javascript">
+        toastr.error('@TempData["error"]')
+    </script>
+}
+@if(TempData["warning"] is not null)
+{
+    <script type="text/javascript">
+        toastr.warning('@TempData["warning"]')
+    </script>
+}
+@if(TempData["info"] is not null)
+{
+    <script type="text/javascript">
+        toastr.info('@TempData["info"]')
+    </script>
+}
+

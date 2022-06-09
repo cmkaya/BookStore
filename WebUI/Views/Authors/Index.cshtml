@@ -1,0 +1,89 @@
+﻿@model IEnumerable<AuthorDto>
+
+@{
+    ViewBag.Title = "Authors";
+}
+
+<div class="container">
+    <div class="row pt-3">
+        <div class="col-md-6">
+            <h1 class="text-primary fw-bold">Authors</h1>
+        </div>
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <div class="col-md-6 text-end" style="font-size: smaller">
+                <a asp-controller="Authors" asp-action="Create" class="btn btn-success">
+                    <i class="fas fa-plus-square"></i> Create
+                </a>
+            </div>
+        }
+    </div>
+    <br/>
+
+    <div class="pt-3">
+        <table id="authors" class="display" style="width: 100%">
+            <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.FullNameDisplay)</th>
+                <th>@Html.DisplayNameFor(model => model.BirthdateText)</th>
+                <th>@Html.DisplayNameFor(model => model.ShortBio)</th>
+                <th>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var author in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => author.FullNameDisplay)</td>
+                    <td>@Html.DisplayFor(model => author.BirthdateText)</td>
+                    <td>@Html.DisplayFor(model => author.ShortBio)</td>
+                    <td>
+                        <div class="btn-group d-flex">
+                            @if (User.Identity.IsAuthenticated)
+                            { 
+                                @if (User.IsInRole("Admin"))
+                                 {
+                                     <a href="#" onclick="deleteRecord(@author.Id)" class="btn btn-danger mx-2" style="width: 100px">
+                                         <i class="fas fa-trash"></i> Delete
+                                     </a>
+                                     @* <a asp-controller="Authors" asp-action="Edit" asp-route-id="@author.Id" class="btn btn-info mx-2" style="width: 100px">Edit</a> *@
+                                 }
+                                <a asp-controller="Authors" asp-action="Details" asp-route-id="@author.Id" class="btn btn-success mx-2" style="width: 100px">
+                                    <i class="fas fa-edit"></i> Details
+                                </a>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts
+{
+    <link rel="stylesheet" href="~/lib/plugins/datatables/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="~/lib/plugins/AlertifyJs/css/alertify.min.css">
+    <script src="~/lib/plugins/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/plugins/AlertifyJs/alertify.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#authors').DataTable();
+        } );
+    </script>
+    
+    <script>
+    function deleteRecord(id){
+        alertify.confirm("Delete Author", "Are you sure to delete?", 
+        function () { 
+            window.location.href="/Authors/Delete/" + id}, 
+        function (){
+        }).set({
+        labels: { ok: 'Yes', cancel: 'No'}
+        });
+    }
+    </script>
+}

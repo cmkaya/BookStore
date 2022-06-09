@@ -1,0 +1,47 @@
+﻿@model IEnumerable<CountryDto>
+
+@{
+    ViewData["Title"] = "Country";
+}
+
+<div class="container">
+    <div class="row pt-3">
+        <div class="col md-6">
+            <h1 class="text-secondary fw-bold">Countries</h1>
+        </div>
+        <div class="col md-6 text-end">
+            <a asp-controller="Countries" asp-action="Create" class="btn btn-success">
+                <i class="fas fa-plus-square"></i>Create
+            </a>
+        </div>
+    </div>
+    <hr/>
+    
+    <div class="pt-3">
+        <table style="width: 100%">
+            <thead>
+            <tr>
+                <th style="width: 45%">@Html.DisplayNameFor(model => model.Name)</th>
+                <th style="width: 20%">
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var country in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => country.Name)</td>
+                    <td>
+                        <div class="btn-group d-flex">
+                            <a asp-controller="Countries" asp-action="Edit" asp-route-id="@country.Id" class="btn btn-info mx-2" style="width: 100px">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            @* <a href="#" onclick="deleteRecord(@author.Id)" class="btn btn-danger mx-2" style="width: 100px">Delete</a> *@
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

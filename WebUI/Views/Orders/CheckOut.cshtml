@@ -1,0 +1,132 @@
+﻿@model OrderDto
+
+@{
+    ViewData["Title"] = "Check Out";
+    decimal cartTotalPrice = Model.Carts.Sum(c => c.UnitPrice * c.Quantity);
+    decimal shippingFee = 0;
+    @* @foreach (var item in Model.BookOrderListDto) *@
+    @* { *@
+    @*     decimal price = item.Price; *@
+    @*     int quantity = item.Quantity; *@
+    @*     cartTotalPrice += price * quantity; *@
+    @* } *@
+    @if (cartTotalPrice <= 100)
+    {
+        shippingFee = 10;
+    }
+    decimal orderTotal = shippingFee + cartTotalPrice;
+}
+
+<h1>Checkout</h1>
+<hr/>
+
+<div class="row">
+    <div class="col-md-8">
+        <h4 class="mb-3">
+            Order Details
+        </h4>
+        <form method="post">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" class="form-control"/>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="LastName"></label>
+                    <input type="text" name="lastName" class="form-control"/>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Address"></label>
+                <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label asp-for="Phone"></label>
+                    <input type="tel" asp-for="Phone" class="form-control"/>
+                </div>
+                <div class="col-md-4">
+                    <label>Country</label>
+                    <select class="form-control selectedCountry" asp-for="CountryId" asp-items="ViewBag.Countries">
+                        <option value="">-- Country --</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>City</label>
+                    <select class="form-control citiesByCountry" asp-for="CityId" asp-items="ViewBag.Cities">
+                        <option value="">-- City --</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-4">
+        <h4 class="mb-3">
+            <span>Summary</span>
+        </h4>
+        <ul class="list-group mb-3">
+            @foreach (var item in Model.Carts)
+            {
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <h6>@item.Quantity x @item.BookName</h6>
+                        @* <small class="text-mute">@item.</small> *@
+                    </div>
+                    <span class="text-muted">@(item.UnitPrice * item.Quantity)</span>
+                </li>
+            }
+            <li class="list-group-item d-flex justify-content-between">
+                @if (cartTotalPrice >= 100)
+                {
+                    <div>
+                        <h6>Shipping Fee</h6>
+                        <small class="text-mute" style="text-decoration: line-through">Free</small>
+                    </div>
+                    <span class="text-muted">@shippingFee</span>
+                }
+                else
+                {
+                    <div>
+                        <h6>Shipping Fee</h6>
+                    </div>
+                    <span class="text-muted">@shippingFee</span>
+                }
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <strong>Total ($)</strong>
+                <strong>@orderTotal</strong>
+            </li>
+        </ul>
+    </div>
+</div>
+    <hr class="mb-3"/>
+<button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+
+@section Scripts
+{
+    <script>
+    $(function() {
+      $(".selectedCountry").change(function() {
+        $(".citiesByCountry").empty();
+        $("#countryMessage").text("");
+        var selectedCountryId = $(".selectedCountry").val();
+        if (selectedCountryId === "") {
+            $("#countryMessage").text("Please select a country!");
+            $(".citiesByCountry").append('<option value=""> -- Select City -- </option>');
+        } else {
+            $.getJSON(
+                "/CitiesJson/CitiesGet",
+                { countryId : selectedCountryId },
+                function (citiesByCountry) {
+                    $(".citiesByCountry").append('<option value=""> -- Select City -- </option>');
+                    for (var i = 0; i < citiesByCountry.length; i++){
+                        $(".citiesByCountry").append('<option value="' + citiesByCountry[i].id + '">' + citiesByCountry[i].name + '</option>');
+                    }
+                }
+            );
+        }
+      });
+    });
+    </script>
+}

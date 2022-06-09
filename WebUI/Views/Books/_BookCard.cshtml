@@ -1,0 +1,43 @@
+﻿@model BookViewIndexModel
+
+<div class="container">
+    <div class="bd-example">
+        <div id="books-filter">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                @if (Model.Books.Count > 0)
+                {
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="col">
+                            <div class="card h-100">
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text></svg>
+
+                                <div class="card-body">
+                                    <h5 class="card-title">@book.Name</h5>
+                                    <p class="card-text" style="text-align: justify">@book.ShortDescription</p>
+                                    <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id" class="stretched-link"></a>
+                                </div>
+                                <div class="card-footer text-end" style="background-color: #FF8C32">
+                                    <small style="font-weight: bolder">@book.UnitPrice.ToString("C", new CultureInfo("en-US"))</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p style="font-weight: 400; font-size: 28px; line-height: 36px; text-align: center; padding-top: 5px">
+                        No book found!
+                    </p>
+                }
+            </div>
+            <div class="row">
+                <div class="row" style="padding-top: 15px">
+                    <div class="col-1">
+                        <select asp-for="CurrentPage" asp-items="Model.SelectPagesList" class="form-control" id="page-number"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

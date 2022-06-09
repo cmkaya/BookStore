@@ -1,0 +1,29 @@
+﻿@model UserLoginDto
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<form asp-action="Login" autocomplete="off">
+    @Html.AntiForgeryToken()
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Login</h2>
+            <hr/>
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" class="form-control"/>
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" type="password"/>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 150px">
+             Sign In
+        </button>
+    </div> 
+</form>

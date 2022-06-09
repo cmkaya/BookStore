@@ -1,0 +1,105 @@
+﻿@model IEnumerable<CartDto>
+
+@{
+    ViewData["Title"] = "Cart";
+    decimal cartTotalPrice = 0;
+    decimal shippingFee = 0;
+    @foreach (var item in Model)
+    {
+        decimal price = item.UnitPrice;
+        int quantity = item.Quantity;
+        cartTotalPrice += price * quantity;
+    }
+    @if (cartTotalPrice <= 100)
+    {
+        shippingFee = 10;
+    }
+    decimal orderTotal = shippingFee + cartTotalPrice;
+}
+
+<div class="container">
+    <div class="row pt-3 border-1">
+        <div class="col md-6">
+            <h1 class="text-secondary fw-bold">Shopping Cart</h1>
+        </div>
+        <div class="col md-6 text-end">
+            <a asp-controller="Cart" asp-action="ClearCart" class="btn btn-danger">Clear Cart</a>
+        </div>
+    </div>
+    <br/>
+    
+    @if(Model.Any())
+    {
+        <div class="row">
+            <div class="col-md-8" style="padding: 4px">
+                <div class="text-left" style="background-color: #2a9d8f; color: white;">
+                    <h4>Cart Items</h4>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Book Name</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total Price</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>Image</td>
+                            <td>@item.BookName</td>
+                            <td>@item.UnitPrice.ToString("C2", new CultureInfo("en-US"))</td>
+                            <td>@item.Quantity</td>
+                            <td>$ @(item.Quantity * item.UnitPrice)</td>
+                            <td>
+                                <a asp-action="RemoveFromCart" asp-controller="Cart" asp-route-bookId="@item.BookId" asp-route-userId="@item.UserId" title="Remove">
+                                    <i class='fas fa-trash' style='color: red'></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4" style="padding: 4px">
+                <div class="text-left" style="background-color: #2a9d8f; color: white">
+                    <h4>Cart Summary</h4>
+                </div>
+                <table class="table" >
+                    <tbody>
+                    <tr>
+                        <th>Cart Total</th>
+                        <td>@cartTotalPrice.ToString("C2", new CultureInfo("en-US"))</td>
+                    </tr>
+                    <tr>
+                        <th>Shipping</th>
+                        <td>@shippingFee.ToString("C2", new CultureInfo("en-US"))</td>
+                    </tr>
+                    <tr>
+                        <th>Order Total</th>
+                        <th>@orderTotal.ToString("C2", new CultureInfo("en-US"))</th>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <a asp-controller="Books" asp-action="Index" class="btn btn-primary">
+                        <i class="fa fa-arrow-circle-left fa-fw"></i> Continue Shopping 
+                    </a>
+                    <a asp-controller="Orders" asp-action="CheckOut" class="btn btn-primary">
+                        <i class="fa fa-arrow-circle-right fa-fw"></i> Checkout
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p style="font-weight: 400; font-size: 28px; line-height: 36px; text-align: center; padding-top: 5px">
+            Your shopping chart is empty.
+        </p>
+    }
+</div>

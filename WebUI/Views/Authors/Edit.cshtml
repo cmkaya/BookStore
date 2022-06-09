@@ -1,0 +1,61 @@
+﻿@model AuthorDto 
+
+@{
+    ViewBag.Title = "Edit Author";
+}
+
+<form asp-action="Edit">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h1 class="text-primary">Edit Author</h1>
+            <hr/>
+        </div>
+        <input asp-for="Id" type="hidden"/>
+        <div class="mb-3">
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="form-control"/>
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" class="form-control"/>
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="BirthdateText"></label>
+            <input asp-for="BirthdateText" class="form-control" id="birthdate">
+            <span asp-validation-for="BirthdateText" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Bio"></label>
+            <textarea asp-for="Bio" class="form-control" rows="5"></textarea>
+            <span asp-validation-for="Bio" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success" style="width: 150px">Save</button>
+        <a id="deleteCategoryButton" class="btn btn-danger" style="width: 150px">Delete</a>
+        <a asp-controller="Authors" asp-action="Index" class="btn btn-info" style="width: 150px">
+            Back to List
+        </a>
+    </div> 
+</form>
+
+@section Scripts
+{
+    <link rel="stylesheet" href="/lib/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
+    <script src="/lib/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    
+    <script>
+        $(function() {
+            $("#birthdate").datepicker({
+                todayBtn: "linked",
+                language: "tr",
+                clearBtn: true,
+                orientation: "top auto",
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+    </script>
+}

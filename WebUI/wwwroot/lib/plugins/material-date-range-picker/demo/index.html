@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>duDatepicker: Material Inspired Date & Date Range Picker Examples</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.5.2/solar/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../dist/duDatepicker.min.css">
+	<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="../dist/duDatepicker-theme.css">
+	<style type="text/css">
+		html,
+		body {
+			min-height: 100%;
+		}
+		#logger { margin-top: 24px; }
+		#logger span { display: block; }
+		#logger textarea {
+			width: 400px;
+			max-width: 100%;
+			margin-top: 4px;
+			resize: none;
+		}
+		h2 { margin: 2rem auto; }
+		h1 { margin-top: 150px; }
+	</style>
+</head>
+
+<body><div id="jquery-script-menu">
+<div class="jquery-script-center">
+<ul>
+<li><a href="https://www.jqueryscript.net/time-clock/material-date-range-picker.html">Download This Plugin</a></li>
+<li><a href="https://www.jqueryscript.net/">Back To jQueryScript.Net</a></li>
+</ul><div id="carbon-block"></div>
+<div class="jquery-script-ads"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+<div class="jquery-script-clear"></div>
+</div>
+</div>
+	<div class="container">
+		<h1>duDatepicker: Material Inspired Date & Date Range Picker Examples</h1>
+		<h2>Date Range Picker</h2>
+		<table id="mycalendar"></table>
+		<input type="text" id="datepicker1" class="form-control">
+		<div id="logger">
+			<span>Logger:</span>
+			<textarea id="loggerTxt" rows="10" disabled></textarea>
+		</div>
+		<h2>Dark Date Range Picker</h2>
+		<input type="text" id="daterange" data-theme="dark" class="form-control">
+		<input type="text" id="range-from" class="form-control">
+		<input type="text" id="range-to" class="form-control">
+
+		<h2>Inline Date Picker</h2>
+
+
+		<input type="text" id="datepicker3" class="form-control">
+		<h2>Dark Inline Date Picker</h2>
+		<input type="text" id="datepicker2" data-theme="dark" class="form-control">
+
+	</div>
+	<script type="text/javascript" src="../dist/duDatepicker.min.js"></script>
+	<script type="text/javascript">
+		function log (message) {
+			document.querySelector('#loggerTxt').value = message
+		}
+
+		window.onload = function () {
+			document.querySelector('#datepicker1').addEventListener('datechanged', function(e) {
+				console.log('New date', e.data, this.value)
+			})
+
+			duDatepicker('#datepicker1', {
+				format: 'mmmm d, yyyy', range: true, clearBtn: true,
+				// disabledDays: ['Sat', 'Sun'],
+				events: {
+					dateChanged: function (data) {
+						log('From: ' + data.dateFrom + '\nTo: ' + data.dateTo)
+					},
+					onRangeFormat: function (from, to) {
+						var fromFormat = 'mmmm d, yyyy', toFormat = 'mmmm d, yyyy';
+
+						if (from.getMonth() === to.getMonth() && from.getFullYear() === to.getFullYear()) {
+							fromFormat = 'mmmm d'
+							toFormat = 'd, yyyy'
+						} else if (from.getFullYear() === to.getFullYear()) {
+							fromFormat = 'mmmm d'
+							toFormat = 'mmmm d, yyyy'
+						}
+
+						return from.getTime() === to.getTime() ?
+							this.formatDate(from, 'mmmm d, yyyy') :
+							[this.formatDate(from, fromFormat), this.formatDate(to, toFormat)].join('-');
+					}
+				}
+			})
+
+			duDatepicker('#datepicker2, #datepicker3', { auto: true, inline: true,
+				events: {
+					dateChanged: function (data) {
+						log('Date:' + data.date)
+					}
+				}
+			})
+
+			duDatepicker('#daterange', {
+				range: true, format: 'mmmm d, yyyy', outFormat: 'yyyy-mm-dd', fromTarget: '#range-from', toTarget: '#range-to',
+				clearBtn: true, theme: 'yellow', maxDate: 'today'
+				// inline: true
+				// events: {
+				// 	ready: function () {
+				// 		console.log('duDatepicker', this)
+				// 	},
+				// 	dateChanged: function (data) {
+				// 		console.log('new date', data)
+				// 	}
+				// }
+			})
+			// duDatepicker('#daterange', 'setValue', 'August 2, 2020-August 5, 2020')
+		}
+	</script>
+	<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<script>
+try {
+  fetch(new Request("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", { method: 'HEAD', mode: 'no-cors' })).then(function(response) {
+    return true;
+  }).catch(function(e) {
+    var carbonScript = document.createElement("script");
+    carbonScript.src = "//cdn.carbonads.com/carbon.js?serve=CK7DKKQU&placement=wwwjqueryscriptnet";
+    carbonScript.id = "_carbonads_js";
+    document.getElementById("carbon-block").appendChild(carbonScript);
+  });
+} catch (error) {
+  console.log(error);
+}
+</script>
+</body>
+
+</html>

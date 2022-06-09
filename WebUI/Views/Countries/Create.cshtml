@@ -1,0 +1,27 @@
+﻿@model CountryDto
+
+@{
+    ViewData["Title"] = "Country";
+}
+
+<form asp-action="Create" autocomplete="off">
+    <div class="container">
+        @Html.AntiForgeryToken()
+        <div class="border p-3 mt-4">
+            <div class="row pb-2">
+                <h1 class="text-primary">Create Country</h1>
+            </div>
+            <hr>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success" style="width: 150px">Save</button>
+            <a asp-controller="Countries" asp-action="Index" class="btn btn-info" style="width: 150px">
+                Back to List
+            </a>
+        </div>
+    </div>
+</form>

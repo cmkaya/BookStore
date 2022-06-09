@@ -1,0 +1,43 @@
+﻿@model CountryDto
+
+@{
+    ViewData["Title"] = "Country";
+}
+
+<form asp-action="Edit" autocomplete="off">
+    @Html.AntiForgeryToken()
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h1 class="text-primary">Edit Country</h1>
+        </div>
+        <hr>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input asp-for="Id" type="hidden"/>
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success" style="width: 150px">Save</button>
+        <a id="deleteCountryButton" class="btn btn-danger" style="width: 150px">
+            <i class="fas fa-trash"></i> Delete
+        </a>
+        <a asp-controller="Countries" asp-action="Index" class="btn btn-info" style="width: 150px">
+            Back to List
+        </a>
+    </div> 
+</form>
+<form id="deleteCountryForm" asp-action="Delete" method="post">
+    <input asp-for="Id" type="hidden"/>
+</form>
+
+@section Scripts
+{
+    <script>
+    $(function() {
+        $("#deleteCountryButton").click(function() {
+          $("#deleteCountryForm").submit();
+        });
+    });
+    </script>
+}

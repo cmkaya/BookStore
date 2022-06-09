@@ -1,0 +1,88 @@
+﻿@model UserRegisterDto
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<form asp-action="Register" autocomplete="off">
+    @Html.AntiForgeryToken()
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h1 class="text-primary">Register</h1>
+            <hr/>
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" class="form-control"/>
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" type="password"/>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" class="form-control" type="password"/>
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="UserDetail.EMail"></label>
+            <input asp-for="UserDetail.EMail" class="form-control" type="email"/>
+            <span asp-validation-for="UserDetail.EMail" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="UserDetail.CountryId"></label>
+            <select class="form-control selectedCountry" asp-for="UserDetail.CountryId" asp-items="ViewBag.Countries">
+                <option value="">-- Country --</option>
+            </select>
+            <span asp-validation-for="UserDetail.CountryId" class="text-danger"></span>
+            <span id="countryMessage" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="UserDetail.CityId"></label>
+            <select class="form-control citiesByCountry" asp-for="UserDetail.CityId" asp-items="ViewBag.Cities">
+                <option value="">-- City --</option>
+            </select>
+            <span asp-validation-for="UserDetail.CityId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="UserDetail.Address"></label>
+            <textarea asp-for="UserDetail.Address" class="form-control"></textarea>
+            <span asp-validation-for="UserDetail.Address" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 150px">
+            Sign Up
+        </button>
+    </div> 
+</form>
+
+@* Populating cities based on country. *@
+@section Scripts
+{
+    <script>
+    $(function() {
+      $(".selectedCountry").change(function() {
+        $(".citiesByCountry").empty();
+        $("#countryMessage").text("");
+        var selectedCountryId = $(".selectedCountry").val();
+        if (selectedCountryId === "") {
+            $("#countryMessage").text("Please select a country!");
+            $(".citiesByCountry").append('<option value=""> -- Select City -- </option>');
+        } else {
+            $.getJSON(
+                "/CitiesJson/CitiesGet",
+                { countryId : selectedCountryId },
+                function (citiesByCountry) {
+                    $(".citiesByCountry").append('<option value=""> -- Select City -- </option>');
+                    for (var i = 0; i < citiesByCountry.length; i++){
+                        $(".citiesByCountry").append('<option value="' + citiesByCountry[i].id + '">' + citiesByCountry[i].name + '</option>');
+                    }
+                }
+            );
+        }
+      });
+    });
+    </script>
+}

@@ -1,0 +1,45 @@
+﻿@model Business.DataTransferObjects.AuthorDto
+
+@{
+    ViewData["Title"] = "Author";
+}
+
+<form asp-action="Create" autocomplete="off">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2 class="text-primary">Create Author</h2>
+            <hr/>
+        </div>
+        <div class="mb-3">
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="form-control" placeholder="Enter a first name..."/>
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" class="form-control" placeholder="Enter a last name..."/>
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        @*<div class="mb-3">
+            <label asp-for="BirthdateText"></label>
+            <input asp-for="BirthdateText" class="form-control" placeholder="Enter birthdate..."/>
+            <span asp-validation-for="BirthdateText" class="text-danger"></span>
+        </div>*@
+        <div class="mb-3">
+            <label asp-for="Birthdate"></label>
+            <input asp-for="Birthdate" asp-format="{0:MM/dd/yyyy}" class="form-control" type="date"/>
+            <span asp-validation-for="Birthdate" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Bio"></label>
+            <textarea asp-for="Bio" class="form-control" placeholder="Enter description"></textarea>
+            <span asp-validation-for="Bio" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success" style="width: 150px">Save</button>
+        <a asp-controller="Authors" asp-action="Index" class="btn btn-secondary" style="width: 150px">
+            Back to List
+        </a>
+    </div> 
+</form>

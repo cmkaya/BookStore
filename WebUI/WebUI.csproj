@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>disable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="EPPlus" Version="6.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.3" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.3">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AppCore\AppCore.csproj" />
+      <ProjectReference Include="..\Business\Business.csproj" />
+      <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+      <ProjectReference Include="..\Entities\Entities.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Pages" />
+      <Folder Include="wwwroot\files\books\" />
+      <Folder Include="wwwroot\lib\images" />
+      <Folder Include="wwwroot\lib\plugins\AlertifyJs" />
+      <Folder Include="wwwroot\lib\plugins\bootstrap-datepicker" />
+      <Folder Include="wwwroot\lib\plugins\datatables" />
+      <Folder Include="wwwroot\lib\plugins\font-awesome" />
+      <Folder Include="wwwroot\lib\plugins\toastr.js" />
+      <Folder Include="wwwroot\files\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Books\Create.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Books\Create.cshtml" />
+    </ItemGroup>
+
+</Project>

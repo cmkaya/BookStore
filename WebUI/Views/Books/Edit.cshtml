@@ -1,0 +1,105 @@
+﻿@model Business.DataTransferObjects.BookDto
+
+@{
+    ViewData["Title"] = "Book";
+}
+
+<form asp-action="Edit" autocomplete="off" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h1 class="text-primary">Edit Book</h1>
+        </div>
+        <hr>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        @* The `Id` is important for the Update method in the Business. *@
+        <input asp-for="Id" type="hidden"/>
+        <div class="mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="AuthorId"></label>
+            <select asp-for="AuthorId" class="form-control" asp-items="ViewBag.Authors">
+                <option value="">-- Select Author --</option>
+            </select>
+            <span asp-validation-for="AuthorId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="UnitPriceText"></label>
+            <input asp-for="UnitPriceText" class="form-control"/>
+            <span asp-validation-for="UnitPriceText" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="StockAmount"></label>
+            <input asp-for="StockAmount" class="form-control" min="0" max="5000"/>
+            <span asp-validation-for="StockAmount" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Publisher"></label>
+            <input asp-for="Publisher" class="form-control"/>
+            <span asp-validation-for="Publisher" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Page"></label>
+            <input asp-for="Page" class="form-control"/>
+            <span asp-validation-for="Page" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="PublicationDateText"></label>
+            <input asp-for="PublicationDateText" class="form-control datePicker"/>
+            <span asp-validation-for="PublicationDateText" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control" rows="9"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="FilePath"></label>
+            <div class="col-5">
+                @if (!string.IsNullOrWhiteSpace(Model.FilePath))
+                {
+                    <img src="@Model.FilePath" class="img-fluid" alt=""/>
+                }
+                <input type="file" name="file" accept="@AppSettings.AcceptedImageExtensions" class="form-control"/>
+                <input type="hidden" asp-for="FilePath"/>
+                <a href="#" class="delete-file-link">Remove File</a>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success" style="width: 120px">
+            Save
+        </button>
+        <a asp-controller="Books" asp-action="Index" class="btn btn-info" style="width: 120px">
+            Back to List
+        </a>
+    </div>
+</form>
+<form asp-action="DeleteFile" id="delete-file-link-form">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id"/>
+    <input type="hidden" asp-for="FilePath"/>
+</form>
+
+@section Scripts
+{
+    <link rel="stylesheet" href="~/lib/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+    <script src="~/lib/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script>
+    $(function() {
+        $(".datePicker").datepicker({
+        clearBtn: true, 
+        calendarWeeks: true, 
+        autoclose: true, 
+        todayHighlight: true
+        });
+
+        $(".delete-file-link").click(function(event) {
+            event.preventDefault();
+            $("#delete-file-link-form").submit();
+        });
+    });
+    </script>
+}

@@ -1,0 +1,65 @@
+﻿@model BookViewIndexModel
+
+@{
+    ViewData["Title"] = "Book";
+}
+
+<div class="container">
+    <form asp-controller="Books" asp-action="Index" id="form" autocomplete="off" data-ajax="true" data-ajax-method="post" data-ajax-mode="replacewith" data-ajax-update="#books-filter">
+        <div class="row">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="col-md-3">
+                @await Component.InvokeAsync("Authors", Model.FilterBy.AuthorId)
+                <partial name="_Filter" model="Model"/>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col md-3 mt-2">
+                        <h5>
+                            <a asp-controller="Books" asp-action="Index" title="All Books" style="text-decoration: none; color: #6610f2;">Books</a>
+                        </h5>
+                    </div>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <div class="col md-6 text-end">
+                            <a asp-controller="Books" asp-action="Create" class="btn btn-success">
+                                <i class="fas fa-plus-square"></i> Create
+                            </a>
+                        </div>
+                    }
+                </div>
+                <div id="books-filter">
+                    <partial name="_BookCard" model="Model"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts
+{
+    <link rel="stylesheet" href="~/lib/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"/>
+    <script src="~/lib/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script>
+    $(function() {
+        $(".custom-date").datepicker({
+            todayBtn: "linked",
+            clearBtn: true,
+            orientation: "bottom auto",
+            autoclose: true,
+            todayHighlight: true
+        });
+        
+        $(document).on("change", "#page-number", function() {
+            $("#form").submit();          
+        });
+        
+        $("#search").click(function() {
+            $("#page-number").val("1");
+        });
+    });
+    </script>
+}
+

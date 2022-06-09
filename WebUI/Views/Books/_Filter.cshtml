@@ -1,0 +1,62 @@
+﻿@model BookViewIndexModel
+
+@* <form asp-controller="Books" asp-action="Index" id="form" autocomplete="off"> *@
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="card mt-3">
+        <div class="card-header">
+            <h5>Search</h5>
+        </div>
+        <div class="card-body">
+            @* Book Name *@
+            <div class="form-group">
+                <label asp-for="FilterBy.BookName"></label>
+                <input type="text" class="form-control" asp-for="FilterBy.BookName">
+            </div>
+
+            @* Unit Price *@
+            <div class="form-group pt-3">
+                <label asp-for="FilterBy.BeginningPriceText"></label>
+                <div class="input-group">
+                    <input asp-for="FilterBy.BeginningPriceText" class="form-control"/>
+                    <span class="input-group-text">to</span>
+                    <input asp-for="FilterBy.EndPriceText" class="form-control"/>
+                </div>
+            </div>
+
+            @* Stock Amount *@
+            <div class="form-group pt-3">
+                <label asp-for="FilterBy.BeginningStockAmount"></label>
+                <div class="input-group">
+                    <input type="number" asp-for="FilterBy.BeginningStockAmount" class="form-control" min="0" max="10000"/>
+                    <span class="input-group-text">to</span>
+                    <input type="number" asp-for="FilterBy.EndStockAmount" class="form-control" min="0" max="10000"/>
+                </div>
+            </div>
+
+            @* Publication Date *@
+            <div class="form-group pt-3">
+                <label asp-for="FilterBy.BeginningPublicationDateText"></label>
+                <div class="input-group">
+                    <input asp-for="FilterBy.BeginningPublicationDateText" class="form-control custom-date"/>
+                    <span class="input-group-text">-</span>
+                    <input asp-for="FilterBy.EndPublicationDateText" class="form-control custom-date"/>
+                </div>
+            </div>
+
+            @* Buttons *@
+            <div class="mt-3" style="text-align: center">
+                <button type="submit" class="btn btn-outline-danger btn-sm" id="search">
+                    <i class="fas fa-search"></i> Search
+                </button>
+                &nbsp;
+                <a class="btn btn-outline-info btn-sm" asp-action="Index" asp-controller="Books" role="button">
+                    <i class="fas fa-sync"></i> Clear
+                </a>
+                &nbsp;
+                <a asp-controller="Books" asp-action="Export" class="btn btn-outline-success btn-sm">
+                    <i class="fas fa-file-download"></i> Excel
+                </a>
+            </div>
+        </div>
+    </div>
+@* </form> *@
